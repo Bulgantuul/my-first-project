@@ -1,0 +1,26 @@
+{
+  "name": "my-first-project",
+  "version": "1.0.0",
+  "description": "Энэ бол миний Программ хангамж хөгжүүлэлтийн процесс хичээлийн анхны төсөл.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bulgantuul/my-first-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bulgantuul/my-first-project/issues"
+  },
+  "homepage": "https://github.com/Bulgantuul/my-first-project#readme",
+  "devDependencies": {
+    "jest": "^30.2.0"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0"
+  }
+}
