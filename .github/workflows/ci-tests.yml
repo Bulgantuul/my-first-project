@@ -1,11 +1,18 @@
-name: Unit Tests (CI)
+# .github/workflows/ci-tests.yml
+
+name: CI/CD Pipeline (Test & Deploy to Heroku) # Workflow-ийн нэрийг өөрчиллөө
+
 on:
   push:
+    # Зөвхөн main branch болон feature branch-уудад push хийхэд ажиллана.
     branches: [ main, feature/** ] 
   pull_request:
     branches: [ main ]
 
 jobs:
+  # ===============================================
+  # 1. CI JOB: Тестүүдийг Ажиллуулж, Кодыг Баталгаажуулах
+  # ===============================================
   test:
     runs-on: ubuntu-latest 
 
@@ -17,8 +24,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20' 
-      
-      # *** ШИНЭЧИЛСЭН АЛХАМ: Cache хийж, CI-д зориулсан суулгац хийх ***
+          
       - name: Cache Node Modules
         uses: actions/cache@v3
         with:
@@ -26,9 +32,36 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies (Use npm ci for CI environments)
-        # npm ci нь npm install-аас илүү хурдан бөгөөд CI-д найдвартай
         run: npm ci 
         
       - name: Run Unit Tests
-        # npm run test нь package.json доторх скриптийг ажиллуулах хамгийн зөв арга
         run: npm run test
+        
+  # ===============================================
+  # 2. CD JOB: Heroku руу Автоматаар Deploy Хийх
+  # ===============================================
+  deploy:
+    # deploy job нь зөвхөн test job амжилттай болсон үед ажиллана.
+    needs: test 
+    
+    # Зөвхөн 'main' branch-д push хийхэд Deploy хийнэ.
+    if: github.ref == 'refs/heads/main'
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Deploy to Heroku (Continuous Deployment)
+        # Heroku-д deploy хийхэд ашиглагдах Action-ийг ашиглана
+        uses: akhileshns/heroku-deploy@v3.13.15
+        with:
+          # Secret key-үүдийг GitHub Settings-ээс авна
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }} 
+          heroku_email: "таны@имэйл.com" # <--- Энд Өөрийн имэйлээ заавал солино!
+          justlogin: true
+          
+      - name: Deployment Success Notification
+        run: echo "🎉 Төсөл Production орчинд амжилттай хүргэгдлээ! Heroku deployment log-ийг шалгана уу."
