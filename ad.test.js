@@ -1,4 +1,3 @@
-// ad.test.js (Шинэчлэгдсэн)
 const CarAd = require("./ad");
 // Custom Error-уудыг оруулж ирэх
 const { ValidationError } = require("./exceptions/AppError");
