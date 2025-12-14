@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авто зарын систем: Бүртгэл</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Автомашины худалдааны платформ</h1>
+        <nav>
+            <button id="show-register">Бүртгүүлэх</button>
+            <button id="show-login">Нэвтрэх</button>
+        </nav>
+    </header>
+
+    <main id="app-container">
+        
+        <section id="register-section" class="form-container">
+            <h2> Шинээр Бүртгүүлэх</h2>
+            <form id="registration-form">
+                <div class="form-group">
+                    <label for="reg-username">Хэрэглэгчийн нэр:</label>
+                    <input type="text" id="reg-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">Имэйл:</label>
+                    <input type="email" id="reg-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Нууц үг:</label>
+                    <input type="password" id="reg-password" required>
+                </div>
+                <button type="submit" class="btn primary">Бүртгэл Үүсгэх</button>
+            </form>
+            <div id="message-area" class="message"></div>
+        </section>
+
+        <section id="login-section" class="form-container hidden">
+            <h2> Нэвтрэх</h2>
+            <p>Нэвтрэх функц цаашид хөгжүүлэгдэнэ.</p>
+        </section>
+        
+    </main>
+
+    <footer>
+        <p>Төлөв: <span id="auth-status">Нэвтрээгүй</span> | © 2024</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

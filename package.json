@@ -4,6 +4,7 @@
   "description": "Энэ бол миний Программ хангамж хөгжүүлэлтийн процесс хичээлийн анхны төсөл.",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "jest"
   },
   "repository": {
@@ -22,6 +23,7 @@
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
     "express": "^5.2.1",
     "supertest": "^7.1.4"
   }

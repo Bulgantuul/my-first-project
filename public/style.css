@@ -1,0 +1,172 @@
+/* Үндсэн өнгөний палитр */
+:root {
+    --color-dark-navy: #0A192F; /* Гүн Navy Blue (Үндсэн Background/Header) */
+    --color-accent-blue: #4A90E2; /* Цэнхэр (Акцент, Товч) */
+    --color-text-light: #ccd6f6; /* Цагаандуу текст (Dark Background дээр) */
+    --color-text-dark: #333333; /* Бараан текст (White Background дээр) */
+    --color-white: #ffffff;
+    --color-soft-bg: #f5f8ff; /* Зөөлөн Background Color */
+    --color-success: #4caf50;
+    --color-error: #f44336;
+    --color-border-subtle: #e0e0e0;
+}
+
+/* Бүх элементийн хил хязгаарыг reset хийх */
+* {
+    box-sizing: border-box;
+}
+
+/* Үндсэн загвар ба Фонт */
+body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    /* Gradient Background нэмэх */
+    background: linear-gradient(135deg, var(--color-soft-bg) 0%, var(--color-white) 100%);
+    color: var(--color-text-dark);
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* Header (Dark Navy) */
+header {
+    background: var(--color-dark-navy);
+    color: var(--color-text-light);
+    padding: 1.5em 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    margin: 0.2em 0;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Цэс (Navigation) - Товчнууд */
+nav {
+    margin-top: 15px;
+}
+
+nav button {
+    background: none;
+    border: 2px solid var(--color-accent-blue);
+    color: var(--color-accent-blue);
+    padding: 0.7em 1.8em;
+    margin: 0 0.6em;
+    cursor: pointer;
+    border-radius: 30px; /* Pill Shape */
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+nav button:hover {
+    background-color: var(--color-accent-blue);
+    color: var(--color-white);
+    transform: translateY(-2px); /* Зөөлөн хөдөлгөөн */
+}
+
+/* Үндсэн Контейнер (Form) */
+#app-container {
+    max-width: 420px;
+    margin: 4em auto;
+    padding: 40px;
+    background: var(--color-white);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); 
+    border-radius: 16px; /* Илүү том зөөлөн ирмэг */
+    border: 1px solid var(--color-border-subtle);
+}
+
+h2 {
+    color: var(--color-dark-navy);
+    margin-top: 0;
+    border-bottom: 2px solid var(--color-soft-bg);
+    padding-bottom: 12px;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+/* Форм Талбарууд */
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--color-text-dark);
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 8px;
+    background-color: var(--color-soft-bg);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+    border-color: var(--color-accent-blue);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2); /* Фокусын үеийн зөөлөн гэрэл */
+    outline: none;
+}
+
+/* Үндсэн Товч (Submit) */
+.btn.primary {
+    background-color: var(--color-accent-blue);
+    color: var(--color-white);
+    padding: 14px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 700;
+    width: 100%;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn.primary:hover {
+    background-color: #3a7fd6; /* Accent blue-ийн бараан өнгө */
+}
+.btn.primary:active {
+    transform: scale(0.99); /* Дарж байгааг харуулах */
+}
+
+/* Мэдээлэл ба Алдаа - UX */
+.message {
+    padding: 15px;
+    margin-top: 25px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: left;
+    border: 1px solid transparent;
+}
+
+.message.success {
+    background-color: #e8f5e9; /* Зөөлөн ногоон Background */
+    color: var(--color-success);
+    border-color: #a5d6a7;
+}
+
+.message.error {
+    background-color: #ffebee; /* Зөөлөн улаан Background */
+    color: var(--color-error);
+    border-color: #ffcdd2;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Footer */
+footer {
+    padding: 1em 0;
+    background-color: var(--color-dark-navy);
+    color: var(--color-text-light);
+    margin-top: 4em;
+    font-size: 0.9em;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}

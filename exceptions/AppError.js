@@ -1,3 +1,5 @@
+// exceptions/AppError.js
+
 class AppError extends Error {
   constructor(message, statusCode = 500, details = null) {
     super(message);
@@ -23,15 +25,7 @@ class ValidationError extends AppError {
   }
 }
 
-class NotFoundError extends AppError {
-  constructor(resource, id) {
-    const message = `${resource} ID: ${id} олдсонгүй.`;
-    super(message, 404);
-  }
-}
-
 module.exports = {
   AppError,
   ValidationError,
-  NotFoundError,
 };

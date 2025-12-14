@@ -9,12 +9,10 @@ app.use(express.json()); // JSON body-г ашиглах
 app.use("/api", userRoutes); // Бүх хэрэглэгчийн API-г холбох
 
 describe("US-01: User Registration Integration Test", () => {
-  // Тест бүрийн дараа DB-г цэвэрлэх
   afterEach(() => {
     UserService.clearUsers();
   });
 
-  // 1. Амжилттай бүртгэлийг шалгах тест
   test("POST /api/register - Should register a new user successfully (201)", async () => {
     const userData = {
       username: "TestUser",

@@ -1,14 +1,16 @@
+// routes/userRoutes.js
+
 const express = require("express");
 const router = express.Router();
 const UserService = require("../services/UserService");
-const { AppError } = require("../exceptions/AppError"); // Алдааг барьж авах үндсэн класс
+const { AppError } = require("../exceptions/AppError");
 
-// Алдааг барьж авах Middleware/Wrapper (Lab 9-д заасан загвар)
+// Асинхрон функцийг wrapper хийж, алдааг next() рүү дамжуулах
 const asyncHandler = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch(next);
 };
 
-// POST /api/register - Хэрэглэгч бүртгүүлэх
+// POST /api/register - Бүртгэл үүсгэх
 router.post(
   "/register",
   asyncHandler(async (req, res) => {
@@ -16,7 +18,6 @@ router.post(
 
     const newUser = await UserService.registerUser(username, password, email);
 
-    // 201 Created статус код буцаах
     res.status(201).json({
       message: "Хэрэглэгч амжилттай бүртгэгдлээ.",
       user: newUser,
@@ -24,19 +25,20 @@ router.post(
   })
 );
 
-// Алдааг зохицуулах Middleware
+// Алдааг зохицуулах Middleware (AppError болон бусад алдааг барих)
 router.use((err, req, res, next) => {
   if (err instanceof AppError) {
-    // Custom AppError-ийг JSON хэлбэрээр буцаах
     return res.status(err.statusCode).json(err.toJson());
   }
-  // Системийн бусад алдаа
+
+  // Системийн алдаа
   console.error(err.stack);
   res
     .status(500)
     .json({
       error: "Дотоод Серверийн Алдаа",
       message: "Бидний зүгээс алдаа гарлаа.",
+      statusCode: 500,
     });
 });
 
