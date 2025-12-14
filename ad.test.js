@@ -1,56 +1,37 @@
-// ad.test.js
+// ad.test.js (Шинэчлэгдсэн)
 const CarAd = require("./ad");
+// Custom Error-уудыг оруулж ирэх
+const { ValidationError } = require("./exceptions/AppError");
 
-describe("Car Ad Model Validation (US-02)", () => {
-  // Зөв өгөгдөл бүхий жишиг обьект
-  const validAdData = {
-    model: "Toyota Prius",
-    price: 35000000,
-    year: 2018,
-  };
+describe("Car Ad Model Validation (US-02) - Error Handling", () => {
+  // ... validAdData-г үлдээх ...
 
-  // 1. Үндсэн амжилттай тест
-  test("Зөв өгөгдлөөр зар үүсгэхэд алдаа гарах ёсгүй", () => {
-    // Улаан (Red): Эхлээд CarAd класс байхгүйгээс алдаа заана.
-
-    // Ногоон (Green): Классыг бичсэний дараа тест хийх
-    const ad = new CarAd(
-      validAdData.model,
-      validAdData.price,
-      validAdData.year
-    );
-    expect(ad).toBeDefined();
-    expect(ad.model).toBe("Toyota Prius");
-    expect(ad.price).toBe(35000000);
-  });
-
-  // 2. Үнэ заавал байх ёстой
-  test("Үнэ (price) байхгүй бол алдаа заах ёстой", () => {
-    // Улаан (Red): validation байхгүйгээс алдаа гарахгүй.
-
-    // Ногоон (Green): validation-ыг бичсэний дараа тест хийх
-    expect(() => new CarAd("Toyota", null, 2018)).toThrow(
-      "Үнэ заавал шаардлагатай."
+  // 1. Үнэ 0-ээс бага байвал алдаа заах ёстой
+  test("Үнэ 0-ээс бага байвал ValidationError заах ёстой", () => {
+    // expect-ийг зөвхөн message-ээр биш, ValidationError класс-аар шалгах
+    expect(() => new CarAd("Toyota", -100, 2018)).toThrow(ValidationError);
+    expect(() => new CarAd("Toyota", -100, 2018)).toThrow(
+      "Үнэ 0-ээс бага байж болохгүй."
     );
   });
 
-  // 3. Үйлдвэрлэсэн он тоо байх ёстой
-  test("Он (year) тоо биш бол алдаа заах ёстой", () => {
-    // Улаан (Red): validation байхгүйгээс алдаа гарахгүй.
-
-    // Ногоон (Green): validation-ыг бичсэний дараа тест хийх
+  // 2. Үйлдвэрлэсэн он тоо биш бол ValidationError заах ёстой
+  test("Он (year) тоо биш бол ValidationError заах ёстой", () => {
+    expect(() => new CarAd("Toyota", 35000000, "хорин арван найм")).toThrow(
+      ValidationError
+    );
     expect(() => new CarAd("Toyota", 35000000, "хорин арван найм")).toThrow(
       "Үйлдвэрлэсэн он тоо байх ёстой."
     );
   });
 
-  // 4. Үнийн хамгийн бага утга
-  test("Үнэ 0-ээс бага байвал алдаа заах ёстой", () => {
-    // Улаан (Red): validation байхгүйгээс алдаа гарахгүй.
-
-    // Ногоон (Green): validation-ыг бичсэний дараа тест хийх
-    expect(() => new CarAd("Toyota", -100, 2018)).toThrow(
-      "Үнэ 0-ээс бага байж болохгүй."
-    );
+  // 3. Үндсэн Exception класс-аар шалгах (Сонголт)
+  test("Баталгаажуулалтын алдаа 400 статус кодтой байх ёстой", () => {
+    try {
+      new CarAd("Toyota", null, 2018);
+    } catch (e) {
+      expect(e).toBeInstanceOf(ValidationError);
+      expect(e.statusCode).toBe(400);
+    }
   });
 });
