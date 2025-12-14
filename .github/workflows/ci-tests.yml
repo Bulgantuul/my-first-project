@@ -1,0 +1,39 @@
+name: Unit Tests (CI)
+
+# 1. ХЭЗЭЭ АЖИЛЛАХ (Trigger)
+on:
+  push:
+    # main болон feature branch-ууд руу код орсон үед
+    branches: [ main, feature/** ] 
+  pull_request:
+    # main branch руу PR үүссэн үед
+    branches: [ main ]
+
+# 2. АЖЛУУДЫН ЖАГСААЛТ (Jobs)
+jobs:
+  test:
+    # Ажлыг гүйцэтгэх үйлдлийн систем
+    runs-on: ubuntu-latest 
+
+    steps:
+      # 2.1. Кодыг татаж авах
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2.2. Node.js орчныг тохируулах (Бидний Jest-д хэрэгтэй)
+      - name: Set up Node.js 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' 
+      
+      # 2.3. Хамааралтай сангуудыг суулгах
+      - name: Install dependencies
+        run: npm install
+
+      # 2.4. Нэгжийн тестүүдийг ажиллуулах (Jest)
+      - name: Run Unit Tests
+        run: npm test # <-- Энэ нь package.json доторх "jest" командын тань нэр
+        
+      # НЭМЭЛТ (Код Дүрэм Шалгах - Linting)
+      - name: Check Code Style (Optional Linting)
+        run: npm run lint || true # Хэрэв та linting тохируулсан бол нэмээрэй
