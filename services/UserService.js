@@ -35,6 +35,18 @@ class UserService {
     const { password: _, ...userData } = newUser;
     return userData;
   }
+
+  // *** ШИНЭ ФУНКЦ: Тестийн зорилгоор өгөгдлийг цэвэрлэнэ ***
+  static clearUsers() {
+    // users массивыг хоослох
+    users.length = 0;
+    nextId = 1; // ID-г эхнээс нь эхлүүлэх
+  }
+
+  // *** Нэмэлт: Хэрэглэгч олох функц (тестүүдэд хэрэгтэй байж болно) ***
+  static findByEmail(email) {
+    return users.find((u) => u.email === email);
+  }
 }
 
 module.exports = UserService;

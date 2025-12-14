@@ -4,9 +4,10 @@ name: CI/CD Pipeline (Test & Deploy to Heroku) # Workflow-ийн нэрийг ө
 
 on:
   push:
-    # Зөвхөн main branch болон feature branch-уудад push хийхэд ажиллана.
+    # main branch болон feature branch-уудад push хийхэд ажиллана.
     branches: [ main, feature/** ] 
   pull_request:
+    # Pull Request-ийг main руу нэгтгэхээс өмнө шалгана.
     branches: [ main ]
 
 jobs:
@@ -35,16 +36,17 @@ jobs:
         run: npm ci 
         
       - name: Run Unit Tests
+        # package.json доторх "test" скриптийг ажиллуулна.
         run: npm run test
         
   # ===============================================
   # 2. CD JOB: Heroku руу Автоматаар Deploy Хийх
   # ===============================================
   deploy:
-    # deploy job нь зөвхөн test job амжилттай болсон үед ажиллана.
+    # 1. Deploy job нь test job амжилттай болсон үед л эхэлнэ.
     needs: test 
     
-    # Зөвхөн 'main' branch-д push хийхэд Deploy хийнэ.
+    # 2. Зөвхөн 'main' branch-д push хийхэд Deploy хийнэ.
     if: github.ref == 'refs/heads/main'
     
     runs-on: ubuntu-latest
@@ -54,14 +56,14 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Deploy to Heroku (Continuous Deployment)
-        # Heroku-д deploy хийхэд ашиглагдах Action-ийг ашиглана
+        # Heroku-д deploy хийхэд ашиглагдах Action
         uses: akhileshns/heroku-deploy@v3.13.15
         with:
-          # Secret key-үүдийг GitHub Settings-ээс авна
+          # GitHub Secrets хэсэгт оруулсан түлхүүрүүд (HEROKU_API_KEY, HEROKU_APP_NAME)
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }} 
           heroku_email: "таны@имэйл.com" # <--- Энд Өөрийн имэйлээ заавал солино!
           justlogin: true
           
       - name: Deployment Success Notification
-        run: echo "🎉 Төсөл Production орчинд амжилттай хүргэгдлээ! Heroku deployment log-ийг шалгана уу."
+        run: echo "🎉 Төсөл Production орчинд амжилттай хүргэгдлээ!"
